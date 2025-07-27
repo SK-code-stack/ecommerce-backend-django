@@ -1,0 +1,71 @@
+from django.shortcuts import render
+from rest_framework.decorators import api_view
+# Models 
+from .models.product import Product
+from .models.homeOutdoor import HomePageHomeOutdoor
+from .models.homeElectronics import HomeElectronics
+from .models.homeRecomendedProduct import HomeRecomended
+from .models.homeDeals import DealsOffers
+# serializers of home page  starts with HP home page 
+from .serializers.ProductSerializer import ProductSerializer
+from .serializers.HomePageHomeOutdoorSerializer import HPHomeOutdoor
+from .serializers.homeElectronicsSerializer import HPhomeElectronics
+from .serializers.homeRecomendedSerializer import HPhomeRecomended
+from .serializers.dealsSerializer import HPDeals
+
+from rest_framework.response import Response
+
+# Create your views here.
+
+@api_view(['GET'])
+def product(request):
+    product = Product.objects.all()
+    serializer = ProductSerializer(product, many=True)
+    return Response(serializer.data)
+    
+
+
+#  home page home and outdoor products
+@api_view(['GET'])
+def homePage_homeOutdoor(request):
+    product = HomePageHomeOutdoor.objects.filter(product__category="Home interiors")[:8]
+    serializer = HPHomeOutdoor(product, many=True)
+    return Response(serializer.data)
+
+
+#  home page Electronics
+@api_view(['GET'])
+def homePage_electronics(request):
+    product = HomeElectronics.objects.filter(product__category="Computer and tech")[:8]
+    serializer = HPhomeElectronics(product, many=True)
+    return Response(serializer.data)
+
+
+
+#  home page Recomended
+@api_view(['GET'])
+def homePage_recomended(request):
+    product = HomeRecomended.objects.all()
+    serializer = HPhomeRecomended(product, many=True)
+    return Response(serializer.data)
+
+
+# home page deals and offers 
+@api_view(['GET'])
+def home_deals(request):
+    product = DealsOffers.objects.all()
+    serializer = HPDeals(product, many=True)
+    return Response(serializer.data)
+
+
+
+
+
+
+
+
+
+
+
+
+
