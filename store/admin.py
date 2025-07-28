@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models.product import Product
 from .models.homeOutdoor import HomePageHomeOutdoor
 from .models.homeRecomendedProduct import HomeRecomended
-from .models.homeDeals import DealsOffers
+from .models.homeDeals import DealTime, DealProduct
 from .models.homeElectronics import HomeElectronics
 
 #  All Products with slug search
@@ -34,14 +34,21 @@ class HomeRecomendedAdmin(admin.ModelAdmin):
     autocomplete_fields = ['product']
 
 #  Deals and Offers with product search
+# Register DealTime and DealProduct in the admin
 
-@admin.register(DealsOffers)
-class DealsOffersAdmin(admin.ModelAdmin):
-    autocomplete_fields = ['dealProducts']
-    list_display = ['dealProducts', 'deal_start_time', 'discount', 'original_price', 'discounted_price']
+@admin.register(DealProduct)
+class DealProductAdmin(admin.ModelAdmin):
+    autocomplete_fields = ['product']
+    list_display = ['product', 'deal', 'discount', 'original_price', 'discounted_price']
 
     def original_price(self, obj):
         return obj.original_price
 
     def discounted_price(self, obj):
         return obj.discounted_price
+
+
+@admin.register(DealTime)
+class DealTimeAdmin(admin.ModelAdmin):
+    list_display = ['deal_start_time', 'deal_ends_at']
+

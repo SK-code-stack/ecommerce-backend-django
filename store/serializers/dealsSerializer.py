@@ -1,19 +1,18 @@
 from rest_framework import serializers
-from ..models.homeDeals import DealsOffers
+from ..models.homeDeals import DealTime, DealProduct
 from .ProductSerializer import ProductSerializer
 
-class HPDeals(serializers.ModelSerializer):
-    dealProducts = ProductSerializer()
+
+class DealProductSerializer(serializers.ModelSerializer):
+    product = ProductSerializer()
     original_price = serializers.SerializerMethodField()
     discounted_price = serializers.SerializerMethodField()
     discount_percentage = serializers.SerializerMethodField()
-    deal_start_time = serializers.DateTimeField()
-    deal_ends_at = serializers.DateTimeField()
 
     class Meta:
-        model = DealsOffers
+        model = DealProduct
         fields = [
-            'dealProducts', 'deal_start_time', 'deal_ends_at', 'discount',
+            'product', 'discount',
             'original_price', 'discounted_price', 'discount_percentage'
         ]
 
@@ -25,3 +24,11 @@ class HPDeals(serializers.ModelSerializer):
 
     def get_discount_percentage(self, obj):
         return obj.discount_percentage
+
+
+class HPDealsSerializer(serializers.ModelSerializer):
+    deal_products = DealProductSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = DealTime
+        fields = ['deal_start_time', 'deal_ends_at', 'deal_products']

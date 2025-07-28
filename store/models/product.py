@@ -20,11 +20,11 @@ class Product(models.Model):
     category = models.CharField(max_length=50, choices=CATEGORY, blank=True, null=True)
 
     # Up to 5 images
-    image1 = models.ImageField(upload_to='products/', blank=True, null=True)
-    image2 = models.ImageField(upload_to='products/', blank=True, null=True)
-    image3 = models.ImageField(upload_to='products/', blank=True, null=True)
-    image4 = models.ImageField(upload_to='products/', blank=True, null=True)
-    image5 = models.ImageField(upload_to='products/', blank=True, null=True)
+    image1 = models.URLField(max_length=2000, blank=True, null=True)
+    image2 = models.URLField(max_length=2000, blank=True, null=True)
+    image3 = models.URLField(max_length=2000, blank=True, null=True)
+    image4 = models.URLField(max_length=2000, blank=True, null=True)
+    image5 = models.URLField(max_length=2000, blank=True, null=True)
 
     # main image (select which image is main)
     MAIN_IMAGE_CHOICES = [
@@ -34,7 +34,7 @@ class Product(models.Model):
         ('image4', 'Image 4'),
         ('image5', 'Image 5'),
     ]
-    main_image = models.CharField(max_length=10, choices=MAIN_IMAGE_CHOICES, blank=True, null=True)
+    main_image = models.CharField(max_length=2000, choices=MAIN_IMAGE_CHOICES, blank=True, null=True)
 
     def __str__(self):
         return self.name

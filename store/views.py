@@ -5,13 +5,13 @@ from .models.product import Product
 from .models.homeOutdoor import HomePageHomeOutdoor
 from .models.homeElectronics import HomeElectronics
 from .models.homeRecomendedProduct import HomeRecomended
-from .models.homeDeals import DealsOffers
+from .models.homeDeals import DealProduct, DealTime
 # serializers of home page  starts with HP home page 
 from .serializers.ProductSerializer import ProductSerializer
 from .serializers.HomePageHomeOutdoorSerializer import HPHomeOutdoor
 from .serializers.homeElectronicsSerializer import HPhomeElectronics
 from .serializers.homeRecomendedSerializer import HPhomeRecomended
-from .serializers.dealsSerializer import HPDeals
+from .serializers.dealsSerializer import HPDealsSerializer
 
 from rest_framework.response import Response
 
@@ -50,14 +50,12 @@ def homePage_recomended(request):
     return Response(serializer.data)
 
 
-# home page deals and offers 
+
 @api_view(['GET'])
 def home_deals(request):
-    product = DealsOffers.objects.all()
-    serializer = HPDeals(product, many=True)
+    deals = DealTime.objects.all()
+    serializer = HPDealsSerializer(deals, many=True)
     return Response(serializer.data)
-
-
 
 
 
