@@ -33,6 +33,7 @@ class Product(models.Model):
         null=True,
         blank=True
     )
+    verified = models.BooleanField(default=False)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     category = models.CharField(max_length=50, choices=CATEGORY, blank=True, null=True)
 
