@@ -4,21 +4,22 @@ import dj_database_url
 from dotenv import load_dotenv
 from corsheaders.defaults import default_headers
 
-# Load .env variables
+# Load environment variables from .env
 load_dotenv()
 
-# Build paths
+# Base directory
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "True") == "True"
 
-SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-key")
-
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
-    "ecommerce-backend-django-8z5g.onrender.com",  # ✅ Your backend domain
+    "ecommerce-backend-django-8z5g.onrender.com",  # Replace with your Render domain
 ]
 
 # Application definition
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",  # ✅ Added for static file serving
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -65,13 +67,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "ecommerce.wsgi.application"
 
-# ✅ DATABASE configuration
+# Database config
 DATABASE_URL = os.getenv("DATABASE_URL")
 DATABASES = {
     "default": dj_database_url.config(
         default=DATABASE_URL,
         conn_max_age=600,
-        ssl_require=not DEBUG
+        ssl_require=not DEBUG,
     )
 }
 
@@ -82,6 +84,12 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
+
+# Internationalization
+LANGUAGE_CODE = "en-us"
+TIME_ZONE = "UTC"
+USE_I18N = True
+USE_TZ = True
 
 # CORS settings
 CORS_ALLOW_ALL_ORIGINS = True
@@ -96,12 +104,14 @@ CSRF_TRUSTED_ORIGINS = [
     "https://ecommerce-backend-django-8z5g.onrender.com",
 ]
 
-# Static files
+# Static and media files
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
 AUTH_USER_MODEL = "accounts.CustomUser"
