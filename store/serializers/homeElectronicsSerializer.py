@@ -3,7 +3,7 @@ from ..models.homeElectronics import HomeElectronics
 from .ProductSerializer import ProductSerializer
 
 class HPhomeElectronics(serializers.ModelSerializer):
-    product = ProductSerializer
+    product = ProductSerializer()  # <-- Add parentheses here
 
     class Meta:
         model = HomeElectronics
