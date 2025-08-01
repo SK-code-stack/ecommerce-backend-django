@@ -97,7 +97,7 @@ DEBUG = os.getenv("DEBUG", "True") == "True"
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
-    "your-backend.onrender.com",  # ✅ add your Render/Railway domain
+    "https://ecommerce-backend-django-8z5g.onrender.com",  # ✅ add your Render/Railway domain
 ]
 
 # Application definition
