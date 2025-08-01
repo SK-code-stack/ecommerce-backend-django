@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os
 from pathlib import Path
 from corsheaders.defaults import default_headers  # ✅ Required for CORS headers
+import dj_database_url
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,6 +31,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
+
 ]
 
 
@@ -82,12 +85,10 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=os.getenv("DATABASE_URL"), conn_max_age=600, ssl_require=True
+    )
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -129,7 +130,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR/'media'
 
 CORS_ALLOWED_ORIGINS = [
-    # "https://mskcode.netlify.app",  # ✅ React frontend deployed on Netlify
+    "https://msk-ecommerce.netlify.app",  # ✅ React frontend deployed on Netlify
     "http://localhost:3000",
 
 ]
@@ -137,7 +138,7 @@ CORS_ALLOWED_ORIGINS = [
 
 
 CSRF_TRUSTED_ORIGINS = [
-    # "https://mskcode.netlify.app",  # ✅ Required for safe POST requests
+    "https://msk-ecommerce.netlify.app",  # ✅ Required for safe POST requests
     "http://localhost:3000",
     # "https://djangoportfolio-production-6822.up.railway.app",
 ]
