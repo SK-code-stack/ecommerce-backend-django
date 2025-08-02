@@ -58,6 +58,16 @@ def home_deals(request):
     return Response(serializer.data)
 
 
+# prodct detail using slug
+@api_view(['GET'])
+def product_detail(request, slug):
+    try:
+        product = Product.objects.get(slug=slug)
+        serializer = ProductSerializer(product)
+        return Response(serializer.data)
+    except Product.DoesNotExist:
+        return Response({'detail': 'Product not found.'}, status=404)
+
 
 
 

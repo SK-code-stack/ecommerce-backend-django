@@ -10,6 +10,8 @@ urlpatterns = [
     path('home-electronic', views.homePage_electronics, name="home-electronic"),
     path('home-recomended', views.homePage_recomended, name="home-recomended"),
     path('home-deals', views.home_deals, name="home-deals"),
+    path('product/<slug:slug>/', views.product_detail, name='product-detail'),
+
 
 ]
 
